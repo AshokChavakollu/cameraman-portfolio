@@ -1,0 +1,317 @@
+@import 'tailwindcss';
+
+@theme {
+  /* Ground — light navy, the EPM / Living Walls direction: near-white paper
+     with a blue cast, deep navy type, one blue that carries every accent.
+     Token names kept from the dark build (ink = surface, bone = type,
+     amber = accent) so no component changes hands. */
+  --color-ink: #eff3fb;
+  --color-char: #ffffff;
+  --color-slate: #e2eaf8;
+  --color-line: #ccd9ef;
+  --color-sapphire: #2e5fd7;
+
+  /* Accent — light navy blue. */
+  --color-amber: #2a52b8;
+  --color-amber-dim: #1d3c8c;
+  --color-amber-glow: #7fa3ea;
+
+  /* Type */
+  --color-bone: #122a5e;
+  --color-ash: #52659c;
+  --color-rec: #e05548;
+
+  /* Same two families as the Livin Studio site: a light Cormorant for display,
+     Manrope for everything else. The technical camera labels are Manrope at
+     small size with wide tracking rather than a third mono family. */
+  --font-display: 'Cormorant Garamond', 'Times New Roman', serif;
+  --font-body: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: var(--color-ink);
+    color: var(--color-bone);
+    font-family: var(--font-body);
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--color-amber);
+    color: var(--color-ink);
+  }
+
+  /* Lenis */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  :focus-visible {
+    outline: 1px solid var(--color-amber);
+    outline-offset: 3px;
+  }
+
+  /* Tailwind v4 dropped preflight's pointer cursor on buttons. On a site whose
+     job is to get an enquiry, a control that doesn't look clickable is a cost. */
+  button:not(:disabled),
+  [role='button']:not([aria-disabled='true']),
+  label[for],
+  summary {
+    cursor: pointer;
+  }
+
+  /* Small round controls (gallery arrows, filter chips, close buttons) get a
+     44px hit area without changing how they look — WCAG 2.5.8. */
+  .tap-44 {
+    position: relative;
+  }
+  .tap-44::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    min-width: 44px;
+    min-height: 44px;
+    width: 100%;
+    height: 100%;
+  }
+
+  input,
+  select,
+  textarea {
+    font-family: inherit;
+  }
+
+  input[type='date']::-webkit-calendar-picker-indicator {
+    opacity: 0.65;
+    cursor: pointer;
+  }
+}
+
+/* ── Technical labels ──────────────────────────────────────────────────────
+   Slate tags, gear readouts, filter chips, the viewfinder HUD. Manrope at a
+   small size with wide tracking does the job a mono face would, without
+   dragging a third family onto the page. */
+.tech {
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+.tech-sm {
+  font-family: var(--font-body);
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+/* ── Reveal primitives (GSAP drives these; CSS is the no-JS fallback) ── */
+.reveal {
+  opacity: 0;
+  transform: translate3d(0, 24px, 0);
+}
+
+/* Line masks for the hero headline — type slides out from behind a matte. */
+.line-mask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.06em;
+  margin-bottom: -0.06em;
+}
+.line-mask > span {
+  display: block;
+}
+
+/* ---------- hero backdrop ----------
+   The EPM treatment in navy. Layered rather than one flat fill: a diagonal
+   colour field, a light source behind the artwork, a fine square grid masked
+   so it fades before the fold, and two soft glows for depth. */
+.hero-field {
+  background-image:
+    radial-gradient(
+      66% 56% at 72% 38%,
+      rgba(127, 163, 234, 0.42) 0%,
+      rgba(176, 199, 243, 0.26) 44%,
+      transparent 74%
+    ),
+    linear-gradient(152deg, #f7faff 0%, #e7eefb 40%, #d3e1f6 70%, #f1f5fd 100%);
+}
+
+/* Fine grid — small enough to read as texture rather than graph paper.
+   Masked so it is strongest on the empty left side and gone behind the
+   artwork, and faded out well before the bottom edge. */
+.hero-mesh {
+  background-image:
+    linear-gradient(to right, rgba(42, 82, 184, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(42, 82, 184, 0.08) 1px, transparent 1px);
+  background-size: 26px 26px;
+  mask-image:
+    linear-gradient(to bottom, black 0%, black 52%, transparent 88%),
+    radial-gradient(52% 60% at 72% 46%, transparent 18%, black 78%);
+  mask-composite: intersect;
+  -webkit-mask-composite: source-in;
+}
+
+/* A second, cooler light low-left so the field has depth, not one hot spot. */
+.hero-glow {
+  background-image:
+    radial-gradient(44% 52% at 14% 82%, rgba(110, 148, 224, 0.28) 0%, transparent 70%),
+    radial-gradient(30% 34% at 88% 14%, rgba(178, 202, 245, 0.5) 0%, transparent 72%);
+}
+
+.hero-noise {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+}
+
+.hairline {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in oklab, #2a52b8 40%, transparent),
+    transparent
+  );
+}
+
+/* ── 35mm grain, animated. Sits above everything, ignores pointer events. ── */
+.grain::after {
+  content: '';
+  position: fixed;
+  inset: -50%;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+  animation: grain-shift 8s steps(6) infinite;
+}
+
+/* Anamorphic vignette — corners fall off like a fast lens wide open. */
+.vignette::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  pointer-events: none;
+  background: radial-gradient(120% 90% at 50% 45%, transparent 55%, rgba(18, 42, 94, 0.1) 100%);
+}
+
+@keyframes grain-shift {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  16% {
+    transform: translate(-2%, 1%);
+  }
+  33% {
+    transform: translate(1%, -2%);
+  }
+  50% {
+    transform: translate(-1%, -1%);
+  }
+  66% {
+    transform: translate(2%, 1%);
+  }
+  83% {
+    transform: translate(1%, 2%);
+  }
+}
+
+@keyframes rec-blink {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  55%,
+  100% {
+    opacity: 0.15;
+  }
+}
+
+@keyframes scroll-cue {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(300%);
+  }
+}
+
+@keyframes drift-slow {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(2%, -3%, 0) scale(1.07);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+/* The dashes on the flight path drift toward the print stack. */
+@keyframes dash-flow {
+  to {
+    stroke-dashoffset: -36;
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Film-strip perforations, drawn not imaged. */
+.perf {
+  background-image: radial-gradient(circle at center, var(--color-ink) 0 42%, transparent 43%);
+  background-size: 22px 22px;
+  background-repeat: repeat-x;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
