@@ -1,25 +1,30 @@
 @import 'tailwindcss';
 
 @theme {
-  /* Ground — light navy, the EPM / Living Walls direction: near-white paper
-     with a blue cast, deep navy type, one blue that carries every accent.
-     Token names kept from the dark build (ink = surface, bone = type,
-     amber = accent) so no component changes hands. */
-  --color-ink: #eff3fb;
-  --color-char: #ffffff;
-  --color-slate: #e2eaf8;
-  --color-line: #ccd9ef;
-  --color-sapphire: #2e5fd7;
+  /* Ground — the darkroom. Warm near-black rather than blue-black or true
+     #000: the work is marigold, red and gold, and a cool ground fights every
+     photograph on the page. True black is harsh under a photograph and shows
+     banding on a gradient; a brown-black reads as paper in a dim room.
 
-  /* Accent — light navy blue. */
-  --color-amber: #2a52b8;
-  --color-amber-dim: #1d3c8c;
-  --color-amber-glow: #7fa3ea;
+     ink   = the page          char  = a lifted surface, and the matte a print
+     line  = hairlines         bone  = type            ash = quiet type
+     amber = the one accent, brass rather than gold so it never reads novelty */
+  --color-ink: #0e0d0b;
+  --color-char: #191612;
+  --color-slate: #221e18;
+  --color-line: #322c23;
+  --color-sapphire: #c8a86a;
 
-  /* Type */
-  --color-bone: #122a5e;
-  --color-ash: #52659c;
-  --color-rec: #e05548;
+  /* Accent — brass. It carries every CTA, so it is light enough that near-black
+     type sits on it at 8:1. */
+  --color-amber: #d0a45c;
+  --color-amber-dim: #8a6c34;
+  --color-amber-glow: #eccb92;
+
+  /* Type — warm off-white and a warm grey. Both clear AA on the ground. */
+  --color-bone: #ece5d8;
+  --color-ash: #b8ac9e;
+  --color-rec: #e0554a;
 
   /* Same two families as the Livin Studio site: a light Cormorant for display,
      Manrope for everything else. The technical camera labels are Manrope at
@@ -32,7 +37,7 @@
 
 @layer base {
   :root {
-    color-scheme: light;
+    color-scheme: dark;
   }
 
   html {
@@ -108,22 +113,105 @@
   }
 }
 
+/* ── The type scale ────────────────────────────────────────────────────────
+   Two families and eight steps, and nothing else anywhere in the app.
+
+   There were twenty-five different hard-coded sizes before this — 0.5, 0.55,
+   0.72, 0.78, 0.8, 0.82, 0.9, 0.95, 0.98, 1, 1.08, 1.2, 1.28, 1.35, 1.4, 1.45,
+   1.6, 1.7, 1.9rem and seven separate clamps — most of them a rem apart from a
+   neighbour doing the same job. Sizes that close read as sloppiness rather
+   than as hierarchy, and half of them were fixed, so they did not move with
+   the viewport at all.
+
+   Every step is fluid, so a step is one class rather than a mobile size and an
+   `sm:` override. DISPLAY steps are Cormorant and carry `font-display`
+   themselves; TEXT steps inherit Manrope from the body. */
+
+/* Display — Cormorant */
+.t-display {
+  font-family: var(--font-display);
+  font-size: clamp(1.95rem, 1.15rem + 3.5vw, 5rem);
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+}
+.t-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.1rem, 1.45rem + 2.2vw, 3.8rem);
+  line-height: 1.06;
+  letter-spacing: -0.015em;
+}
+.t-heading {
+  font-family: var(--font-display);
+  font-size: clamp(1.55rem, 1.3rem + 0.9vw, 1.95rem);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+.t-card {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 1.06rem + 0.55vw, 1.45rem);
+  line-height: 1.2;
+}
+/* A pull quote runs to several lines, so it gets its own leading rather than
+   the card step's, which is set for one-line titles. */
+.t-quote {
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 1.02rem + 0.5vw, 1.35rem);
+  line-height: 1.5;
+}
+/* The mobile menu, which is display type sized against the phone it is on. */
+.t-menu {
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 7.5vw, 2.5rem);
+  line-height: 1.15;
+}
+
+/* Text — Manrope */
+.t-lede {
+  font-size: clamp(0.98rem, 0.94rem + 0.22vw, 1.18rem);
+  line-height: 1.7;
+}
+.t-body {
+  font-size: clamp(0.9rem, 0.88rem + 0.14vw, 1rem);
+  line-height: 1.7;
+}
+.t-label {
+  font-size: clamp(0.78rem, 0.755rem + 0.11vw, 0.86rem);
+}
+/* Numerals big enough to be a headline. Manrope, not Cormorant: the display
+   face has old-style figures that drop below the cap height, and "312" reads
+   as "3ı2". */
+.t-stat {
+  font-size: clamp(1.55rem, 1.1rem + 1.5vw, 2.8rem);
+  line-height: 1;
+}
+
 /* ── Technical labels ──────────────────────────────────────────────────────
    Slate tags, gear readouts, filter chips, the viewfinder HUD. Manrope at a
    small size with wide tracking does the job a mono face would, without
    dragging a third family onto the page. */
 .tech {
   font-family: var(--font-body);
-  font-size: 0.68rem;
+  /* Fluid, with hard bounds: these caption photographs whose size also tracks
+     the viewport, so a fixed size reads as oversized on a phone. */
+  font-size: clamp(0.6rem, 0.53rem + 0.2vw, 0.8rem);
   font-weight: 500;
   letter-spacing: 0.3em;
   text-transform: uppercase;
 }
 .tech-sm {
   font-family: var(--font-body);
-  font-size: 0.6rem;
+  font-size: clamp(0.54rem, 0.49rem + 0.15vw, 0.7rem);
   font-weight: 500;
   letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+/* Clip and track labels on the timeline, where a step smaller is the only way
+   a name fits inside a two-second clip. */
+.tech-xs {
+  font-family: var(--font-body);
+  font-size: clamp(0.5rem, 0.47rem + 0.09vw, 0.58rem);
+  font-weight: 500;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
@@ -152,11 +240,11 @@
   background-image:
     radial-gradient(
       66% 56% at 72% 38%,
-      rgba(127, 163, 234, 0.42) 0%,
-      rgba(176, 199, 243, 0.26) 44%,
+      rgba(208, 164, 92, 0.14) 0%,
+      rgba(150, 108, 56, 0.07) 44%,
       transparent 74%
     ),
-    linear-gradient(152deg, #f7faff 0%, #e7eefb 40%, #d3e1f6 70%, #f1f5fd 100%);
+    linear-gradient(152deg, #16130f 0%, #100e0c 40%, #0a0908 70%, #141110 100%);
 }
 
 /* Fine grid — small enough to read as texture rather than graph paper.
@@ -164,8 +252,8 @@
    artwork, and faded out well before the bottom edge. */
 .hero-mesh {
   background-image:
-    linear-gradient(to right, rgba(42, 82, 184, 0.08) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(42, 82, 184, 0.08) 1px, transparent 1px);
+    linear-gradient(to right, rgba(236, 229, 216, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(236, 229, 216, 0.045) 1px, transparent 1px);
   background-size: 26px 26px;
   mask-image:
     linear-gradient(to bottom, black 0%, black 52%, transparent 88%),
@@ -177,21 +265,23 @@
 /* A second, cooler light low-left so the field has depth, not one hot spot. */
 .hero-glow {
   background-image:
-    radial-gradient(44% 52% at 14% 82%, rgba(110, 148, 224, 0.28) 0%, transparent 70%),
-    radial-gradient(30% 34% at 88% 14%, rgba(178, 202, 245, 0.5) 0%, transparent 72%);
+    radial-gradient(44% 52% at 14% 82%, rgba(120, 96, 64, 0.22) 0%, transparent 70%),
+    radial-gradient(30% 34% at 88% 14%, rgba(208, 164, 92, 0.12) 0%, transparent 72%);
 }
 
+/* Grain over a dark ground has to add light, not subtract it: `multiply` on
+   near-black is invisible. */
 .hero-noise {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity: 0.05;
-  mix-blend-mode: multiply;
+  opacity: 0.06;
+  mix-blend-mode: soft-light;
 }
 
 .hairline {
   background: linear-gradient(
     90deg,
     transparent,
-    color-mix(in oklab, #2a52b8 40%, transparent),
+    color-mix(in oklab, #d0a45c 45%, transparent),
     transparent
   );
 }
@@ -216,7 +306,7 @@
   inset: 0;
   z-index: 55;
   pointer-events: none;
-  background: radial-gradient(120% 90% at 50% 45%, transparent 55%, rgba(18, 42, 94, 0.1) 100%);
+  background: radial-gradient(120% 90% at 50% 45%, transparent 52%, rgba(0, 0, 0, 0.42) 100%);
 }
 
 @keyframes grain-shift {
@@ -249,6 +339,42 @@
   55%,
   100% {
     opacity: 0.15;
+  }
+}
+
+/* A photograph arriving on the hero wall. The card it hands over from is
+   still shrinking into the same spot, so this only has to take the weight —
+   a short settle, no travel of its own. */
+@keyframes photo-land {
+  0% {
+    opacity: 0;
+    scale: 1.14;
+  }
+  100% {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+/* The grease-pencil ring being drawn round the keeper. `pathLength="1"` on the
+   path normalises its length, so one dash from 1 to 0 draws it end to end
+   without anything measuring the path in JavaScript. */
+@keyframes pencil {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* The kept frame swapping in. Small move, no slide: it is a print being put
+   down on the table, not a slide transitioning. */
+@keyframes keeper-in {
+  0% {
+    opacity: 0;
+    scale: 1.03;
+  }
+  100% {
+    opacity: 1;
+    scale: 1;
   }
 }
 

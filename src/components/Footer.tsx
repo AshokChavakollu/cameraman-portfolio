@@ -7,7 +7,7 @@ export default function Footer() {
       <div className="mx-auto w-full max-w-[104rem]">
         <div className="flex flex-wrap items-end justify-between gap-10">
           <div>
-            <p className="font-display text-[clamp(2.2rem,6vw,3.8rem)] leading-none font-light tracking-[-0.015em] text-bone">
+            <p className="t-title font-light text-bone">
               {SITE.name}
             </p>
             <p className="mt-3 tech text-ash ">

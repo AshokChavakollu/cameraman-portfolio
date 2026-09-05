@@ -28,16 +28,16 @@ export default function Process() {
             className="reveal relative grid grid-cols-[3rem_1fr] gap-5 pb-10 sm:grid-cols-[4.5rem_1fr] sm:gap-8"
           >
             <div className="relative">
-              <span className="relative z-10 flex size-11 items-center justify-center rounded-full border border-amber/40 bg-ink text-[0.72rem] font-medium tracking-[0.14em] text-amber tabular-nums sm:size-[4.25rem] sm:text-[0.8rem]">
+              <span className="relative z-10 flex size-11 items-center justify-center rounded-full border border-amber/40 bg-ink t-label font-medium tracking-[0.14em] text-amber tabular-nums sm:size-[4.25rem]">
                 {p.step}
               </span>
             </div>
 
             <div className="pt-2">
-              <h3 className="font-display text-[1.4rem] font-light text-bone sm:text-[1.7rem]">
+              <h3 className="t-heading font-light text-bone">
                 {p.title}
               </h3>
-              <p className="mt-2 max-w-2xl text-[0.95rem] leading-[1.7] text-ash">{p.body}</p>
+              <p className="mt-2 max-w-2xl t-body text-ash">{p.body}</p>
             </div>
           </li>
         ))}

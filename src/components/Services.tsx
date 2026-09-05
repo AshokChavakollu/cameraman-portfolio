@@ -23,7 +23,7 @@ export default function Services() {
           >
             {/* Amber wash that rises on hover — the card lights up like a lamp
  being brought in, not a colour swap. */}
-            <span className="pointer-events-none absolute inset-x-0 -bottom-24 h-40 bg-[radial-gradient(60%_100%_at_50%_100%,rgba(42,82,184,0.12),transparent_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+            <span className="pointer-events-none absolute inset-x-0 -bottom-24 h-40 bg-[radial-gradient(60%_100%_at_50%_100%,rgba(208,164,92,0.10),transparent_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
             <div className="relative flex items-start justify-between gap-6">
               <Icon
@@ -34,10 +34,10 @@ export default function Services() {
               <span className="tech text-ash ">{s.price}</span>
             </div>
 
-            <h3 className="relative mt-7 font-display text-[1.6rem] font-light tracking-[-0.01em] text-bone sm:text-[1.9rem]">
+            <h3 className="relative mt-7 t-heading font-light text-bone">
               {s.title}
             </h3>
-            <p className="relative mt-3 text-[0.95rem] leading-[1.7] text-ash">{s.body}</p>
+            <p className="relative mt-3 t-body text-ash">{s.body}</p>
 
             <ul className="relative mt-6 flex flex-wrap gap-2">
               {s.includes.map((inc) => (

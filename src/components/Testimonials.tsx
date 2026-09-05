@@ -20,14 +20,27 @@ export default function Testimonials() {
             <Icon name="aperture" className="size-6 text-amber/50" strokeWidth={1} />
             {/* Quotes in the display serif — someone else's voice, set apart
                 from the sans the rest of the page speaks in. */}
-            <blockquote className="mt-6 font-display text-[1.28rem] leading-[1.5] font-light text-bone/90 italic">
+            <blockquote className="mt-6 t-quote font-light text-bone/90 italic">
               “{t.quote}”
             </blockquote>
-            <figcaption className="mt-7 border-t border-line/70 pt-4">
-              <span className="block font-display text-[1.2rem] font-light text-bone">
-                {t.name}
+            {/* The specifics are the testimonial. A frame from their own day,
+                the venue and the month turn a nice sentence into a claim that
+                could be checked — which is the only reason to believe it. */}
+            <figcaption className="mt-7 flex items-center gap-4 border-t border-line/70 pt-5">
+              <img
+                src={t.frame}
+                alt=""
+                loading="lazy"
+                decoding="async"
+                className="size-12 shrink-0 rounded-lg object-cover"
+              />
+              <span className="min-w-0">
+                <span className="block t-card font-light text-bone">{t.name}</span>
+                <span className="mt-1 block tech-sm text-ash">
+                  {t.venue} · {t.date}
+                </span>
+                <span className="mt-1 block tech-sm text-amber/75">{t.service}</span>
               </span>
-              <span className="mt-0.5 block tech-sm text-ash ">{t.detail}</span>
             </figcaption>
           </figure>
         ))}

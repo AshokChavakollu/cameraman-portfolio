@@ -58,14 +58,14 @@ export default function Contact() {
               className="flex items-center gap-4 border-b border-line/70 pb-4 text-bone transition-colors hover:text-amber"
             >
               <Icon name="phone" className="size-5 text-amber" />
-              <span className="text-[0.95rem] tracking-[0.02em]">{SITE.phoneDisplay}</span>
+              <span className="t-body tracking-[0.02em]">{SITE.phoneDisplay}</span>
             </a>
             <a
               href={`mailto:${SITE.email}`}
               className="flex items-center gap-4 border-b border-line/70 pb-4 text-bone transition-colors hover:text-amber"
             >
               <Icon name="mail" className="size-5 text-amber" />
-              <span className="text-[0.95rem] tracking-[0.02em]">{SITE.email}</span>
+              <span className="t-body tracking-[0.02em]">{SITE.email}</span>
             </a>
             <a
               href={whatsappHref()}
@@ -74,7 +74,7 @@ export default function Contact() {
               className="flex items-center gap-4 border-b border-line/70 pb-4 text-bone transition-colors hover:text-amber"
             >
               <Icon name="whatsapp" className="size-5 text-amber" />
-              <span className="text-[0.95rem] tracking-[0.02em]">Message on WhatsApp</span>
+              <span className="t-body tracking-[0.02em]">Message on WhatsApp</span>
             </a>
           </div>
         </div>
@@ -152,7 +152,7 @@ export default function Contact() {
 
           <button
             type="submit"
-            className="mt-8 flex w-full items-center justify-center gap-2.5 rounded-full bg-amber px-6 py-4 text-[0.82rem] font-semibold tracking-[0.04em] text-ink transition-all duration-300 hover:bg-amber-glow hover:shadow-[0_0_38px_-10px_var(--color-amber)]"
+            className="mt-8 flex w-full items-center justify-center gap-2.5 rounded-full bg-amber px-6 py-4 t-label font-semibold tracking-[0.04em] text-ink transition-all duration-300 hover:bg-amber-glow hover:shadow-[0_0_38px_-10px_var(--color-amber)]"
           >
             <Icon name="whatsapp" className="size-4" />
             Send on WhatsApp
@@ -170,7 +170,7 @@ export default function Contact() {
 }
 
 const inputClass = (invalid: boolean) =>
-  `w-full rounded-lg border bg-ink/70 px-4 py-3 text-[0.9rem] text-bone placeholder:text-ash/45 transition-colors duration-200 focus:border-amber focus:outline-none ${
+  `w-full rounded-lg border bg-ink/70 px-4 py-3 t-body text-bone placeholder:text-ash/65 transition-colors duration-200 focus:border-amber focus:outline-none ${
     invalid ? 'border-rec/70' : 'border-line'
   }`
 
@@ -191,7 +191,7 @@ function Field({
     <div>
       <label htmlFor={name} className="mb-2 flex items-baseline gap-2 tech-sm text-ash ">
         {label}
-        {optional && <span className="text-ash/50 normal-case">(optional)</span>}
+        {optional && <span className="text-ash/65 normal-case">(optional)</span>}
       </label>
       {children}
       {error && <p className="mt-1.5 tech-sm text-rec">{error}</p>}

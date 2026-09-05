@@ -1,29 +1,25 @@
-import { Suspense, lazy, useCallback, useEffect, useRef, useState } from 'react'
-import HeroHud from './HeroHud'
+import { useCallback, useEffect, useRef } from 'react'
+import FilmStage from './FilmStage'
 import SloganCycle from './SloganCycle'
 import { CtaLink } from '../ui'
 import Icon from '../Icon'
 import { HERO, SITE, TICKER, whatsappHref } from '../../data/site'
 import { gsap, prefersReducedMotion, useCountUp } from '../../lib/motion'
 
-/** three + drei are ~800kB of the bundle. The headline and the CTA must not
- *  wait behind them, so the rig arrives as its own chunk after first paint. */
-const RigScene = lazy(() => import('../../three/RigScene'))
-
 /**
- * Left: who he is and how to reach him. Right: the rig.
+ * Left: who he is and how to reach him. Right: the take.
  *
- * The two halves are coupled — every time the shutter fires in the 3D scene the
- * DOM flashes and the frame counter ticks, so the animation reads as one
- * machine rather than a decorative object parked next to some text.
+ * The stage carries no viewfinder furniture — no brackets, no rec light, no
+ * exposure readout. Those said "this is a video of a camera"; without them the
+ * footage stops being a clip parked on the page and becomes the page. The one
+ * thing kept from that language is the flash on the shutter, because it is not
+ * a label, it is the event.
  */
 export default function Hero() {
   const root = useRef<HTMLElement>(null)
   const flash = useRef<HTMLDivElement>(null)
-  const [frames, setFrames] = useState(1284)
 
   const onCapture = useCallback(() => {
-    setFrames((n) => n + 1)
     const el = flash.current
     // A tween started while the tab is hidden freezes mid-flight (rAF is
     // paused) and leaves the stage sitting under a lit overlay.
@@ -92,7 +88,9 @@ export default function Hero() {
 
           <SloganCycle />
 
-          <p className="hero-in mt-6 max-w-xl text-[1rem] leading-[1.75] text-ash">{HERO.sub}</p>
+          <p className="hero-in mt-5 max-w-xl t-lede text-ash sm:mt-6">
+            {HERO.sub}
+          </p>
 
           <div className="hero-in mt-9 flex flex-wrap items-center gap-3">
             <CtaLink href={whatsappHref()} icon="whatsapp" external>
@@ -113,13 +111,15 @@ export default function Hero() {
         </div>
 
         {/* ── Stage ── */}
-        <div className="hero-stage relative order-1 h-[52vh] min-h-[340px] w-full sm:h-[58vh] lg:order-2 lg:h-[76vh]">
-          <Suspense fallback={<StagePoster />}>
-            <RigScene onCapture={onCapture} />
-          </Suspense>
-          <HeroHud frames={frames} />
-          {/* Shutter flash — fired from the 3D scene, painted in the DOM because
-              a full-bleed CSS layer is cheaper than a post-processing pass. */}
+        {/* The height is capped against the VIEWPORT WIDTH as well as its
+            height: a portrait tablet is wide enough for the two-column grid but
+            only ~450px per column, and 76vh of a 1366px-tall screen made the
+            stage twice as tall as it was wide — which crops the picture to a
+            slot and leaves the work nowhere to sit. */}
+        <div className="hero-stage relative order-1 h-[46vh] max-h-[560px] min-h-[300px] w-full sm:h-[56vh] sm:max-h-none lg:order-2 lg:h-[min(76vh,58vw)]">
+          <FilmStage onCapture={onCapture} />
+          {/* Shutter flash — fired on the clip's shutter beat, painted in the
+              DOM because a CSS layer is cheaper than a frame of video. */}
           <div
             ref={flash}
             className="pointer-events-none absolute inset-0 z-30 opacity-0 mix-blend-screen"
@@ -129,8 +129,6 @@ export default function Hero() {
               mixBlendMode: 'normal',
             }}
           />
-          {/* Fade the rig's tripod legs into the page instead of cutting them. */}
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-24 bg-gradient-to-t from-ink to-transparent" />
         </div>
       </div>
 
@@ -161,27 +159,11 @@ function Stat({ value, suffix, label }: { value: number; suffix: string; label: 
       <dt className="sr-only">{label}</dt>
       {/* Set in Manrope, not the display serif: Cormorant's old-style figures
           drop the 1 and the 0 below the cap height, so "312" reads as "3ı2". */}
-      <dd className="text-[1.75rem] leading-none font-semibold text-bone tabular-nums sm:text-[2.2rem]">
+      <dd className="t-stat font-semibold text-bone tabular-nums">
         <span ref={ref} />
         <span className="font-light text-amber">{suffix}</span>
       </dd>
       <p className="tech-sm mt-2.5 text-ash/70">{label}</p>
-    </div>
-  )
-}
-
-/** Holds the stage's shape while the 3D chunk loads — no layout shift, and a
- *  lens-shaped glow so the gap reads as intentional. */
-function StagePoster() {
-  return (
-    <div className="absolute inset-0 flex items-center justify-center">
-      <div
-        className="size-48 rounded-full opacity-70 blur-2xl"
-        style={{
-          background:
-            'radial-gradient(circle, rgba(42,82,184,0.18), rgba(91,143,214,0.1) 55%, transparent 72%)',
-        }}
-      />
     </div>
   )
 }

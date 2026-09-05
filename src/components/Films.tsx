@@ -64,16 +64,16 @@ export default function Films() {
                   />
                   {/* Letterbox bars — fixed dark, because cinema bars are
                       black whatever the page theme is. */}
-                  <span className="absolute inset-x-0 top-0 h-[9%] bg-[#0a1633]/85" />
-                  <span className="absolute inset-x-0 bottom-0 h-[9%] bg-[#0a1633]/85" />
+                  <span className="absolute inset-x-0 top-0 h-[9%] bg-[#100e0c]/85" />
+                  <span className="absolute inset-x-0 bottom-0 h-[9%] bg-[#100e0c]/85" />
 
                   <span className="absolute inset-0 flex items-center justify-center">
-                    <span className="flex size-16 items-center justify-center rounded-full border border-white/40 bg-[#0a1633]/40 text-[#f5f7ff] backdrop-blur-sm transition-all duration-400 group-hover:border-amber group-hover:bg-amber">
+                    <span className="flex size-16 items-center justify-center rounded-full border border-white/40 bg-[#100e0c]/40 text-[#f3ece0] backdrop-blur-sm transition-all duration-400 group-hover:border-amber group-hover:bg-amber">
                       <Icon name="play" className="size-5 translate-x-0.5" />
                     </span>
                   </span>
 
-                  <span className="absolute right-3 bottom-[13%] rounded bg-[#0a1633]/75 px-2 py-1 tech-sm text-[#f5f7ff]/85 tabular-nums">
+                  <span className="absolute right-3 bottom-[13%] rounded bg-[#100e0c]/75 px-2 py-1 tech-sm text-[#f3ece0]/85 tabular-nums">
                     {film.runtime}
                   </span>
                 </button>
@@ -82,7 +82,7 @@ export default function Films() {
 
             <div className="mt-4 flex items-start justify-between gap-4">
               <div>
-                <h3 className="font-display text-[1.45rem] font-light text-bone">{film.title}</h3>
+                <h3 className="t-card font-light text-bone">{film.title}</h3>
                 <p className="mt-1 tech-sm text-ash ">{film.place}</p>
               </div>
               <span className="shrink-0 rounded-full border border-line px-3 py-1 tech-sm text-amber/90 ">

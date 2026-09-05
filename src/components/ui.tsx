@@ -47,14 +47,14 @@ export function Eyebrow({ children }: { children: ReactNode }) {
 
 export function SectionTitle({ children }: { children: ReactNode }) {
   return (
-    <h2 className="reveal mt-4 max-w-2xl font-display text-[clamp(2.1rem,4.6vw,3.6rem)] leading-[1.06] font-light tracking-[-0.015em] text-bone">
+    <h2 className="reveal mt-4 max-w-2xl t-title font-light text-bone">
       {children}
     </h2>
   )
 }
 
 export function Lede({ children }: { children: ReactNode }) {
-  return <p className="reveal mt-5 max-w-xl text-[0.98rem] leading-[1.75] text-ash">{children}</p>
+  return <p className="reveal mt-5 max-w-xl t-lede text-ash">{children}</p>
 }
 
 type ButtonProps = {
@@ -75,7 +75,7 @@ export function CtaLink({
   className = '',
 }: ButtonProps) {
   const base =
-    'group inline-flex items-center gap-2.5 rounded-full px-5 py-3 text-[0.78rem] font-medium tracking-[0.04em] transition-all duration-300 ease-[var(--ease-out-expo)] sm:px-7 sm:py-3.5 sm:text-[0.82rem]'
+    'group inline-flex items-center gap-2.5 rounded-full px-5 py-3 t-label font-medium tracking-[0.04em] transition-all duration-300 ease-[var(--ease-out-expo)] sm:px-7 sm:py-3.5'
   const skin =
     variant === 'solid'
       ? 'bg-amber font-semibold text-ink hover:bg-amber-glow hover:shadow-[0_0_38px_-8px_var(--color-amber)]'

@@ -47,15 +47,15 @@ export default function Frame({
 
       {/* Caption plate — a fixed dark scrim, because it sits over a photograph
           whatever the page theme is. */}
-      <span className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#0a1633]/90 via-[#0a1633]/55 to-transparent p-4 pt-10">
-        <span className="block font-display text-[1.2rem] font-light text-[#f5f7ff]">
+      <span className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#100e0c]/90 via-[#100e0c]/55 to-transparent p-4 pt-10">
+        <span className="block t-card font-light text-[#f3ece0]">
           {shot.title}
         </span>
-        <span className="mt-0.5 block tech-sm text-[#b9c8ea]">{shot.place}</span>
+        <span className="mt-0.5 block tech-sm text-[#b3a897]">{shot.place}</span>
       </span>
 
-      <span className="pointer-events-none absolute top-3 right-3 flex size-8 items-center justify-center rounded-full border border-white/25 bg-[#0a1633]/45 opacity-0 backdrop-blur-sm transition-opacity duration-300 group-hover:opacity-100">
-        <Icon name="plus" className="size-3.5 text-[#f5f7ff]" />
+      <span className="pointer-events-none absolute top-3 right-3 flex size-8 items-center justify-center rounded-full border border-white/25 bg-[#100e0c]/45 opacity-0 backdrop-blur-sm transition-opacity duration-300 group-hover:opacity-100">
+        <Icon name="plus" className="size-3.5 text-[#f3ece0]" />
       </span>
     </button>
   )
@@ -69,9 +69,9 @@ function Placeholder({ hue, index }: { hue: number; index: number }) {
         // Each tile keeps a hint of its own hue, then resolves into the site's
         // navy — otherwise a grid of free-hue gradients fights the palette.
         background: `linear-gradient(155deg,
-          hsl(${hue} 45% 86%) 0%,
-          hsl(220 42% 90%) 54%,
-          #e7eefb 100%)`,
+          hsl(${hue} 38% 22%) 0%,
+          hsl(30 18% 13%) 54%,
+          #e6dfd2 100%)`,
       }}
     >
       {/* A soft key light in the corner so the tile has a direction of light */}

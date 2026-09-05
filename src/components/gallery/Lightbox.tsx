@@ -80,14 +80,14 @@ export default function Lightbox({
             <div
               className="flex aspect-[3/2] w-full max-w-3xl items-center justify-center rounded-lg border border-line"
               style={{
-                background: `linear-gradient(155deg, hsl(${shot.hue} 45% 86%), hsl(220 42% 90%) 60%, #e7eefb 100%)`,
+                background: `linear-gradient(155deg, hsl(${shot.hue} 38% 24%), hsl(30 18% 14%) 60%, #100e0c 100%)`,
               }}
             >
               <span className="tech text-bone/45 ">photograph pending</span>
             </div>
           )}
           <figcaption className="mt-6 text-center">
-            <span className="block font-display text-[1.45rem] font-light text-bone">
+            <span className="block t-card font-light text-bone">
               {shot.title}
             </span>
             <span className="mt-1 block tech-sm text-ash ">

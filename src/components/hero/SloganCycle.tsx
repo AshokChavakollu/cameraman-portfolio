@@ -66,11 +66,14 @@ export default function SloganCycle() {
       <div
         ref={root}
         aria-hidden="true"
-        className="mt-6 font-display text-[clamp(2.15rem,5.4vw,3.8rem)] leading-[1.06] font-light tracking-[-0.02em] text-bone"
+        className="mt-6 t-display font-light text-bone"
       >
         {Array.from({ length: LINES }, (_, i) => (
           <span key={i} className="line-mask">
-            <span className={i === 1 ? 'text-amber italic' : undefined}>{current[i]}</span>
+            {/* The second line is the one worth stressing, but it is stressed
+                in COLOUR only — same face, same weight, same slant as the
+                first, so the two lines read as one sentence. */}
+            <span className={i === 1 ? 'text-amber' : undefined}>{current[i]}</span>
           </span>
         ))}
       </div>

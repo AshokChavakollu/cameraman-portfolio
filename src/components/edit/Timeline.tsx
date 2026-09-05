@@ -17,8 +17,8 @@ import { EDIT } from '../../data/site'
  * site theme is, so nothing in here reads the theme tokens.
  */
 
-const GOLD = '#e6c079'
-const BLUE = '#3462cc'
+const GOLD = '#d0a45c'
+const BLUE = '#c08a3e'
 
 const TRACKS = [
   { id: 'V2', label: 'V2', kind: 'video' as const, height: 'h-9' },
@@ -37,31 +37,31 @@ export default function Timeline({
   const pct = (v: number) => `${(v / EDIT.duration) * 100}%`
 
   return (
-    <div className="self-start rounded-lg border border-[#24407c] bg-[#0c1c40]/80 lg:self-center">
+    <div className="self-start rounded-lg border border-[#3a3227] bg-[#151210]/80 lg:self-center">
       {/* ── Panel toolbar ── */}
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-1 border-b border-[#1e356b] px-3 py-2">
-        <span className="tech-sm text-[#e8eefc]/85">{EDIT.project}</span>
-        <span className="tech-sm text-[#93a8d9]/70">{EDIT.format}</span>
-        <span className="tech-sm ml-auto flex items-center gap-1.5 text-[#93a8d9]/70">
-          <span className="size-1.5 rounded-full bg-[#e6c079]/70" />
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-1 border-b border-[#2b2620] px-3 py-2">
+        <span className="tech-sm text-[#ece5d8]/85">{EDIT.project}</span>
+        <span className="tech-sm text-[#9c9285]/70">{EDIT.format}</span>
+        <span className="tech-sm ml-auto flex items-center gap-1.5 text-[#9c9285]/70">
+          <span className="size-1.5 rounded-full bg-[#d0a45c]/70" />
           snapping
         </span>
-        <span className="tech-sm text-[#93a8d9]/70">zoom 1:4</span>
+        <span className="tech-sm text-[#9c9285]/70">zoom 1:4</span>
       </div>
 
       <div className="grid grid-cols-[2.6rem_1fr] sm:grid-cols-[3.4rem_1fr]">
         {/* ── Track headers ── */}
-        <div className="border-r border-[#1e356b]">
-          <div className="h-6 border-b border-[#1e356b]/70" />
+        <div className="border-r border-[#2b2620]">
+          <div className="h-6 border-b border-[#2b2620]/70" />
           {TRACKS.map((t) => (
             <div
               key={t.id}
-              className={`${t.height} flex items-center justify-between gap-1 border-b border-[#1e356b]/60 px-1.5 sm:px-2`}
+              className={`${t.height} flex items-center justify-between gap-1 border-b border-[#2b2620]/60 px-1.5 sm:px-2`}
             >
-              <span className="tech-sm text-[#93a8d9]/80">{t.label}</span>
+              <span className="tech-sm text-[#9c9285]/80">{t.label}</span>
               {/* Eye for video, speaker for audio — the two controls every
                   editor's hand goes to first. */}
-              <span className="text-[#93a8d9]/40">
+              <span className="text-[#9c9285]/40">
                 {t.kind === 'video' ? <EyeIcon /> : <SpeakerIcon />}
               </span>
             </div>
@@ -71,18 +71,18 @@ export default function Timeline({
         {/* ── Tracks ── */}
         <div className="relative overflow-hidden">
           {/* Ruler */}
-          <div className="relative h-6 border-b border-[#1e356b]/70">
+          <div className="relative h-6 border-b border-[#2b2620]/70">
             {Array.from({ length: EDIT.duration / 4 + 1 }, (_, i) => {
               const s = i * 4
               const major = s % 12 === 0
               return (
                 <span
                   key={s}
-                  className={`absolute top-0 w-px ${major ? 'h-3 bg-[#93a8d9]/50' : 'h-1.5 bg-[#93a8d9]/25'}`}
+                  className={`absolute top-0 w-px ${major ? 'h-3 bg-[#9c9285]/50' : 'h-1.5 bg-[#9c9285]/25'}`}
                   style={{ left: pct(s) }}
                 >
                   {major && (
-                    <span className="tech-sm absolute top-3 left-1 text-[0.5rem] text-[#93a8d9]/55 tabular-nums">
+                    <span className="tech-sm absolute top-3 left-1 tech-xs text-[#9c9285]/55 tabular-nums">
                       {mmss(s)}
                     </span>
                   )}
@@ -92,7 +92,7 @@ export default function Timeline({
           </div>
 
           {TRACKS.map((t) => (
-            <div key={t.id} className={`${t.height} relative border-b border-[#1e356b]/60`}>
+            <div key={t.id} className={`${t.height} relative border-b border-[#2b2620]/60`}>
               {t.kind === 'video'
                 ? EDIT.clips
                     .filter((c) => c.track === t.id)
@@ -126,9 +126,9 @@ export default function Timeline({
           {/* ── Playhead ── */}
           <div
             ref={playhead}
-            className="pointer-events-none absolute top-0 bottom-0 left-0 z-20 w-px bg-[#e6c079] will-change-transform"
+            className="pointer-events-none absolute top-0 bottom-0 left-0 z-20 w-px bg-[#d0a45c] will-change-transform"
           >
-            <span className="absolute -top-0.5 -left-[5px] size-0 border-x-[5px] border-t-[7px] border-x-transparent border-t-[#e6c079]" />
+            <span className="absolute -top-0.5 -left-[5px] size-0 border-x-[5px] border-t-[7px] border-x-transparent border-t-[#d0a45c]" />
           </div>
         </div>
       </div>
@@ -154,10 +154,10 @@ function VideoClip({
     <div
       className={`absolute inset-y-[3px] overflow-hidden rounded-[3px] border transition-colors duration-300 ${
         active
-          ? 'border-[#e6c079]/70 bg-[#e6c079]/20 shadow-[inset_0_0_18px_-6px_#e6c079]'
+          ? 'border-[#d0a45c]/70 bg-[#d0a45c]/20 shadow-[inset_0_0_18px_-6px_#d0a45c]'
           : overlay
-            ? 'border-[#3462cc]/50 bg-[#3462cc]/15'
-            : 'border-[#e6c079]/35 bg-[#e6c079]/10'
+            ? 'border-[#c08a3e]/50 bg-[#c08a3e]/15'
+            : 'border-[#d0a45c]/35 bg-[#d0a45c]/10'
       }`}
       style={{ left, width }}
     >
@@ -170,12 +170,12 @@ function VideoClip({
           opacity: 0.45,
         }}
       />
-      <span className="tech-sm absolute inset-x-1.5 top-1/2 truncate -translate-y-1/2 text-[0.5rem] text-[#e8eefc]/85 sm:text-[0.55rem]">
+      <span className="tech-sm absolute inset-x-1.5 top-1/2 truncate -translate-y-1/2 tech-xs text-[#ece5d8]/85">
         {label}
       </span>
       {/* Trim handles */}
-      <span className="absolute inset-y-1 left-0.5 w-px bg-[#e8eefc]/25" />
-      <span className="absolute inset-y-1 right-0.5 w-px bg-[#e8eefc]/25" />
+      <span className="absolute inset-y-1 left-0.5 w-px bg-[#ece5d8]/25" />
+      <span className="absolute inset-y-1 right-0.5 w-px bg-[#ece5d8]/25" />
     </div>
   )
 }
@@ -195,11 +195,11 @@ function AudioClip({
 }) {
   return (
     <div
-      className="absolute inset-y-[3px] overflow-hidden rounded-[3px] border border-[#3462cc]/45 bg-[#3462cc]/10"
+      className="absolute inset-y-[3px] overflow-hidden rounded-[3px] border border-[#c08a3e]/45 bg-[#c08a3e]/10"
       style={{ left, width }}
     >
-      <Waveform seed={seed} energy={energy} className="size-full text-[#5b8fd6]" />
-      <span className="tech-sm absolute inset-x-1.5 top-1/2 truncate -translate-y-1/2 text-[0.5rem] text-[#e8eefc]/75">
+      <Waveform seed={seed} energy={energy} className="size-full text-[#dfc38a]" />
+      <span className="tech-sm absolute inset-x-1.5 top-1/2 truncate -translate-y-1/2 tech-xs text-[#ece5d8]/75">
         {label}
       </span>
     </div>

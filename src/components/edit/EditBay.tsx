@@ -125,7 +125,7 @@ export default function EditBay() {
           section was missing. Its colours are fixed, not theme tokens. */}
       <div
         ref={host}
-        className="reveal mt-8 rounded-2xl border border-[#1e356b] bg-[#0a1836] p-4 shadow-[0_30px_70px_-30px_rgba(18,42,94,0.55)] sm:p-6"
+        className="reveal mt-8 rounded-2xl border border-[#2b2620] bg-[#100e0c] p-4 shadow-[0_30px_70px_-30px_rgba(0,0,0,0.66)] sm:p-6"
       >
         <div className="grid gap-6 lg:grid-cols-2 lg:gap-8">
           {/* ── Monitor ── */}
@@ -137,10 +137,10 @@ export default function EditBay() {
               timecode={tc}
             />
 
-            <div className="mt-4 flex flex-wrap items-baseline gap-x-5 gap-y-1 border-t border-[#1e356b] pt-3">
-              <span className="tech-sm text-[#93a8d9]/80">now cutting</span>
-              <span className="tech-sm text-[#e8eefc]/90">{active?.label}</span>
-              <span className="tech-sm ml-auto text-[#e6c079]/90">graded in-house</span>
+            <div className="mt-4 flex flex-wrap items-baseline gap-x-5 gap-y-1 border-t border-[#2b2620] pt-3">
+              <span className="tech-sm text-[#9c9285]/80">now cutting</span>
+              <span className="tech-sm text-[#ece5d8]/90">{active?.label}</span>
+              <span className="tech-sm ml-auto text-[#d0a45c]/90">graded in-house</span>
             </div>
           </div>
 
@@ -154,13 +154,13 @@ export default function EditBay() {
              table read as a spec sheet and cost 200px for information nobody
              books a wedding on. */}
       <div className="mt-10 grid gap-6 border-t border-line/70 pt-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-10">
-        <p className="reveal max-w-2xl text-[0.95rem] leading-[1.7] text-ash">{ABOUT.body[0]}</p>
+        <p className="reveal max-w-2xl t-body text-ash">{ABOUT.body[0]}</p>
 
         <ul className="reveal flex flex-wrap items-start gap-x-2 gap-y-2 self-start">
           {ABOUT.kit.map((k) => (
             <li
               key={k.label}
-              className="rounded-full border border-line px-3 py-1.5 text-[0.72rem] text-ash/85"
+              className="rounded-full border border-line px-3 py-1.5 t-label text-ash/85"
             >
               <span className="text-amber/80">{k.label}</span> · {k.value}
             </li>

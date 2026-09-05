@@ -1,7 +1,16 @@
 # Cameraman portfolio — wedding filmmaker site
 
-Single-page portfolio for a wedding filmmaker / cinematographer. Dark cinema
-palette, a Three.js camera rig in the hero, and every enquiry routed to WhatsApp.
+Single-page portfolio for a wedding filmmaker / cinematographer. A darkroom
+palette — warm near-black ground, brass accent — a looped take of the
+photographer in the hero with the portfolio assembling over it, and every
+enquiry routed to WhatsApp.
+
+The ground is warm, not blue-black and not `#000`. The work is marigold, red
+and gold, and a cool ground fights every photograph on the page; true black is
+harsh under a photograph and bands on a gradient. Tokens live in the `@theme`
+block of `src/index.css` — `ink` is the page, `char` a lifted surface and the
+matte around a print, `bone` and `ash` the two weights of type, `amber` the one
+accent. Every text pair clears WCAG AA on the ground.
 
 ```bash
 npm install
@@ -11,32 +20,52 @@ npm run lint
 ```
 
 Stack: Vite + React 19 + TypeScript, Tailwind v4, GSAP + ScrollTrigger, Lenis,
-react-three-fiber (no drei), zod.
+zod. No 3D: the camera used to be a three.js model and is now the real take,
+which reads better and saved ~890kB.
 
-Type is the Livin Studio system: **Cormorant Garamond** light for display,
-**Manrope** for everything else. Section titles run
-`clamp(2.1rem, 4.6vw, 3.6rem)`, the hero `clamp(2.7rem, 7.4vw, 4.9rem)`, body
-copy sits at 0.95–1rem on a 1.7 line height. Technical camera labels — slate
-tags, gear readouts, the viewfinder HUD — use the `.tech` / `.tech-sm` classes
-in `index.css` (small Manrope, wide tracking, caps) instead of a mono family.
+Type is two families and nine steps, and nothing else anywhere in the app:
+**Cormorant Garamond** light for display, **Manrope** for everything else.
+Every step is a class in `src/index.css` and every step is fluid, so a step is
+one class rather than a size plus an `sm:` override:
+
+| step | family | for |
+| --- | --- | --- |
+| `.t-display` | Cormorant | the hero slogan |
+| `.t-title` | Cormorant | section titles, the footer line |
+| `.t-heading` | Cormorant | service and process headings |
+| `.t-card` | Cormorant | card titles, frame labels, the brand mark |
+| `.t-quote` | Cormorant | pull quotes, which run to several lines |
+| `.t-menu` | Cormorant | the mobile menu, sized against the phone |
+| `.t-lede` | Manrope | section ledes, FAQ questions |
+| `.t-body` | Manrope | body copy, form fields |
+| `.t-label` | Manrope | buttons and small emphasis |
+| `.t-stat` | Manrope | the big numerals |
+| `.tech` `.tech-sm` `.tech-xs` | Manrope | slate tags, gear readouts, timeline labels |
+
 Numbers stay in Manrope: Cormorant's old-style figures drop below the cap
 height and "312" reads as "3ı2".
+
+**Do not add a size to a component.** There were twenty-five hard-coded ones
+before this — 0.5, 0.55, 0.72, 0.78, 0.8, 0.82, 0.9, 0.95, 0.98, 1, 1.08, 1.2,
+1.28, 1.35, 1.4, 1.45, 1.6, 1.7, 1.9rem and seven separate clamps — most a
+hair apart from a neighbour doing the same job, which reads as sloppiness
+rather than as hierarchy. The steps also carry their own line-height, and they
+are unlayered CSS: a `leading-` or `font-display` on the element does nothing
+but suggest it is in charge.
 
 ## What's where
 
 | Path | What it holds |
 | --- | --- |
 | `src/data/site.ts` | **All copy, prices, links, gallery and film lists.** Start here. |
-| `src/three/CameraRig.tsx` | The camera drawing — body, reels, lens stack, shutter |
-| `src/three/Operator.tsx` | The person: head, torso, arms posed onto the rig |
-| `src/three/HandheldRig.tsx` | Operator + camera as one body, and the handheld motion |
-| `src/three/draw.tsx` | Block / Ring / Rails / Limb — the drawing kit |
-| `src/three/layout.ts` | Palette, geometry helpers, where the camera meets the shoulder |
-| `src/three/RigScene.tsx` | Canvas, fog, dust, camera drift |
-| `src/three/Dslr.tsx` | The solid camera in the shutter section — zoom, fire, recoil |
-| `src/three/ShootScene.tsx` | Lit stage for the solid camera |
-| `src/components/shoot/` | The shutter section: print stack, one print card |
-| `src/components/hero/` | Hero layout, viewfinder HUD overlay |
+| `src/lib/film.ts` | The take's measured beats and the feather. Both sections read it |
+| `src/components/hero/` | Hero layout, the film stage, the rotating slogan |
+| `src/components/sheet/` | "Every frame is a decision" — the contact sheet and its keeper |
+| `src/components/Aperture.tsx` | The eight-blade iris a section opens through |
+| `src/components/Availability.tsx` | The season strip — which months are still open |
+| `src/components/Delivery.tsx` | The delivery docket — what lands, when, and in what spec |
+| `src/components/Story.tsx` | One wedding start to finish — the day in the order it happened |
+| `public/film/` | The take — 5.5s, silent, looped, and its poster |
 | `src/components/edit/` | The edit-bay section: monitor, timeline, waveforms |
 | `src/lib/motion.ts` | Smooth scroll, reveal, count-up, parallax, pointer |
 | `src/lib/enquiry.ts` | Form schema (zod) and the WhatsApp hand-off |
@@ -56,68 +85,97 @@ Everything below is a placeholder. Search `TODO:` in `src/data/site.ts`.
    inside `GALLERY_FILTERS`.
 3. **Films** — replace each `youtubeId` in `FILMS`. Players are click-to-load,
    so no YouTube code runs until a visitor presses play.
-4. **Meta** — title, description and OG tags in `index.html`.
-5. **Prices** in `SERVICES`, and the testimonials — get written permission
-   before using a real couple's name.
+4. **Dates** — `AVAILABILITY.months` and `AVAILABILITY.updated`, together. A
+   stale strip is worse than none: it invites an enquiry for a month that went
+   months ago, and "actually that's gone" is the worst first reply a couple can
+   get. If nobody will keep it current, delete the section instead.
+5. **Meta** — title, description and OG tags in `index.html`.
+6. **Prices** in `SERVICES`. For `TESTIMONIALS`, get written permission before
+   a real couple's name goes up, and use a frame from **their** wedding — a
+   stock frame under a named couple beside a named venue and month is the one
+   thing on this page that would be a lie rather than a placeholder.
+7. **`STORY` needs one real wedding** — twelve to eighteen frames from a
+   single day in the order they happened, with the couple's written permission
+   for their name, venue and date. It currently borrows gallery frames, so the
+   same photograph appears in four sections, which is what gives a placeholder
+   away.
+8. **`DELIVERY` is a delivery promise.** Turnarounds, frame count, album spec
+   and especially the five-year retention line will be quoted back to the
+   studio years later. Confirm every row.
+9. **The FAQ answers are contract terms**, not copy. The deposit and whether it
+   is refundable, the number of edited frames, the crew that turns up, the
+   drone arrangement, the revision rounds and the illness clause are promises
+   the studio has to keep. They are written as sensible defaults so the section
+   can be judged full — confirm every one against what the studio actually
+   does.
 
 ## Notes on the hero
 
-The camera is **drawn, not rendered** — the same language as the Livin Studio
-room build: edges in an amber hairline, faces as barely-there translucent
-panels, every material `MeshBasicMaterial` or line geometry. There are no lights
-in the scene at all, which is the point: it reads as a technical drawing rather
-than a product shot, and it costs a handful of draw calls.
+The stage is **one 5.5s take of the photographer, looped**, and the portfolio
+assembles on top of it. The split is the whole design: the FOOTAGE carries the
+person and the room, the DOM carries the work. A generator cannot render a
+legible event name and cannot know which photographs are in this portfolio
+today, and anything burned into a clip can never be changed again — so the
+video holds only him, and every photograph and caption is real DOM over it.
 
-It is not a camera on a tripod — it is a camera **on someone's shoulder**. The
-operator is drawn in bone hairline (kit is warm, the person is not), his arms
-posed by joint position rather than by angle so the right hand lands exactly on
-the focus ring and the eyepiece meets his eye. `SHOULDER_MOUNT` in `layout.ts`
-is the one number both files agree on.
+Each pass is one capture. At 2.0s the camera is at his eye, the frame flashes,
+and the photograph grows out of the body; it holds open at his left, captioned
+with the event, while in the footage he lowers the camera and reads its back;
+then it shrinks into its place on the wall and the next pass takes the next one.
 
-The handheld feel is four motions stacked: **breath** (a slow rise through the
-chest), **weight** (shifting foot to foot), **micro-shake** (incoherent sines —
-the tremor nobody holds out) and **intent** (a slow pan, nudged by the visitor's
-pointer). Any one alone reads as a mechanical loop; together they read as a
-person trying to hold a camera still. It never scrubs to scroll.
+Three things that are load-bearing:
 
-The shutter fires every 5.5s, which pinches the iris, flashes the page and ticks
-the frame counter in the HUD — the 3D and the DOM are one machine, not an
-animation parked beside some text.
+- **Two coordinate spaces.** The camera anchor is in PICTURE space so the
+  freeze-frame lands on his hands at any crop; the photographs are in STAGE
+  space so they can never be cropped off on a phone. Sizes are clamped px.
+- **The clip does not loop on its own** and cannot be made to — see the header
+  of `src/lib/film.ts`. It is a hard cut masked by a fast defocus, because a
+  dissolve across that gap puts two of him on screen at once.
+- **No viewfinder furniture.** No brackets, no rec light, no focal-length
+  readout. They announced "this is a video of a camera", which is the opposite
+  of the goal.
 
 Performance and access:
 
-- `three` loads as a separate chunk after first paint (`React.lazy`), so the
-  headline and CTA are not stuck behind ~890kB of renderer.
-- The render loop stops entirely once the hero scrolls out of view.
-- `prefers-reduced-motion` renders a single static frame and skips every tween.
+- The take is 234kB of h264 and the poster 33kB. There is no renderer to wait
+  for — dropping three.js took ~890kB off the page.
+- Playback stops entirely once the hero scrolls out of view.
+- `prefers-reduced-motion` renders the poster and skips every tween.
 
-## The shutter section
+## The contact sheet
 
-Second on the page, after the hero. A solid camera on the left fires itself
-every 3.2s — the zoom barrel rides out, the shutter button travels, the flash
-pops — and each exposure sends one print flying onto a stack on the right. No
-click required; a visitor who never touches the page still watches the work
-being made.
+Second on the page. A sheet of twelve frames, one ringed in grease pencil, and
+the keeper printed large beside it. It is the part of the job a client never
+sees, and it is what the section title means: he did not take this photograph,
+he took twelve and threw eleven away.
 
-Deliberate splits:
+It replaced a three.js camera that fired on a timer, and then briefly a
+scroll-scrubbed version of the same idea. Both told the story the hero already
+tells — him firing a shutter, a picture appearing. The scrub also asked the
+visitor to infer wheel → clip time → shutter → print, which is three steps
+nobody makes in two seconds. A sheet with one frame circled needs no explaining
+and says the thing the hero cannot: the choosing, not the capture.
 
-- The camera here is **shaded**, unlike the hero's wireframe. The hero is the
-  blueprint, this is the thing the blueprint describes. Three-point light rig,
-  no environment map.
-- The prints are **DOM, not 3D**. A photograph in an `<img>` stays sharp at any
-  DPR, costs nothing to composite, and the real frames drop straight in.
-- One normalised phase drives the whole cycle, so the button, the barrel, the
-  flash and the print can never disagree about where they are in the shot.
+Deliberate choices:
 
-Frames come from `SHOOT_SEQUENCE` in `site.ts` — six ceremonies with a hue each.
-Set `src` on an entry and that print shows the real photograph instead of the
-graded field. Nothing else changes.
+- **It plays itself, and it yields.** The pick moves every 3.6s so a passive
+  visitor still watches frames chosen and rejected; the first hover, tap or tab
+  stops the auto for good.
+- **The frames develop once.** They come up out of blur and grey in a random
+  order, like a sheet coming up in a tray. `once: true` — a darkroom effect that
+  re-runs on every scroll-past is a loading spinner.
+- **The ring is drawn, not faded.** `pathLength="1"` normalises the path so one
+  dash offset draws it end to end with nothing measuring it in JavaScript, and
+  the loop overshoots its own start the way a hand does.
 
-> **The five photographs currently in `public/work/` are AI-generated
-> placeholders**, marked `placeholder: true`. They are there so the section can
-> be judged with real images in it. Replace them with the photographer's own
-> frames before launch — the section tells visitors these are his weddings.
-> (`mandap` has no file yet and falls back to the graded field.)
+Frames come from `CONTACT_SHEET` in `site.ts`. Ideally they are twelve frames of
+ONE moment — a burst, near-identical — so choosing between them looks like the
+judgement it is; set `pick` to the keeper.
+
+> **The photographs currently in `public/work/` are AI-generated placeholders.**
+> They are there so the sections can be judged with real images in them. Replace
+> them with the photographer's own frames before launch — the site tells
+> visitors these are his weddings.
 
 ## The edit bay
 
