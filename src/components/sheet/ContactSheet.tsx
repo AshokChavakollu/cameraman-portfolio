@@ -27,12 +27,30 @@ import { ScrollTrigger, gsap, prefersReducedMotion, useReveal } from '../../lib/
  *     stops for good — nothing is more irritating than a thing that keeps
  *     moving under a hand that has taken hold of it.
  *
- * 2 · THE FRAMES DEVELOP, ONCE. On entry they come up out of blur and grey
- *     into focus and colour, in a random order, like a sheet coming up in a
- *     tray. `once: true`: a darkroom effect that re-runs every time you scroll
- *     past is a loading spinner.
+ * 2 · THE FRAMES RISE IN ROLL ORDER, ONCE. Each print slides up into its own
+ *     frame, 01 through 12, the dark ground showing above it until it lands.
+ *     No fade: the picture is legible from the first frame of the move.
  *
- * 3 · THE PENCIL RING IS DRAWN, NOT FADED. `pathLength="1"` normalises the
+ *     It used to defocus instead: blur and grey resolving into focus and
+ *     colour, in a random order. Three things wrong with that. Animating
+ *     `filter` re-rasterises twelve image layers every frame, which is the one
+ *     move that will not hold sixty. It left an inline `opacity: 1` on every
+ *     cell, which outranks the `opacity-45` that is supposed to dim the
+ *     rejects, so the dimming quietly never worked again after the intro. And
+ *     defocusing is a lens pulling focus, not a print developing: this section
+ *     is about the darkroom, and a contact sheet arrives already sharp.
+ *
+ *     Transform only now, and `clearProps` on the way out so the tween owns
+ *     nothing once it has finished.
+ *
+ * 3 · THE RING IS DRAWN AFTER THE SHEET IS DRY. Nothing gets circled until the
+ *     last frame has come up, because the point of the section is the choosing
+ *     and you cannot watch a choice that was already made before you arrived.
+ *     The auto-advance waits on the same flag, so the section is entered on
+ *     `SHEET.pick` rather than on whichever frame an off-screen timer had
+ *     wandered to.
+ *
+ * 4 · THE PENCIL RING IS DRAWN, NOT FADED. `pathLength="1"` normalises the
  *     path so a dash offset of 1 → 0 draws it end to end without anyone
  *     measuring it in JavaScript, and the loop overshoots its own start the
  *     way a hand does.
@@ -69,25 +87,33 @@ export default function ContactSheet() {
   // literal 6 and the state would refuse every other frame.
   const [picked, setPicked] = useState<number>(SHEET.pick)
   const [taken, setTaken] = useState(false)
+  const [developed, setDeveloped] = useState(false)
 
   // ── the sheet comes up in the tray ───────────────────────────────────────
   useEffect(() => {
     const el = grid.current
-    if (!el || prefersReducedMotion()) return
+    if (!el) return
 
-    const cells = el.querySelectorAll('.sheet-cell')
+    if (prefersReducedMotion()) {
+      setDeveloped(true)
+      return
+    }
+
+    // The prints, not the buttons: the cell's own opacity is what marks a
+    // frame as kept or rejected, and a tween has no business holding it.
+    const prints = el.querySelectorAll('.sheet-print')
 
     const tween = gsap.fromTo(
-      cells,
-      { opacity: 0, filter: 'blur(9px) saturate(0.15)', scale: 0.94 },
+      prints,
+      { yPercent: 12 },
       {
-        opacity: 1,
-        filter: 'blur(0px) saturate(1)',
-        scale: 1,
-        duration: 0.85,
+        yPercent: 0,
+        duration: 0.7,
         ease: 'power2.out',
-        stagger: { each: 0.045, from: 'random' },
+        stagger: { each: 0.05 },
         paused: true,
+        clearProps: 'transform',
+        onComplete: () => setDeveloped(true),
       },
     )
 
@@ -101,16 +127,15 @@ export default function ContactSheet() {
     return () => {
       st.kill()
       tween.kill()
-      gsap.set(cells, { clearProps: 'opacity,filter,scale' })
     }
   }, [])
 
   // ── it keeps choosing until someone else does ────────────────────────────
   useEffect(() => {
-    if (taken || prefersReducedMotion()) return
+    if (!developed || taken || prefersReducedMotion()) return
     const id = window.setInterval(() => setPicked((p) => (p + 1) % COUNT), DWELL)
     return () => window.clearInterval(id)
-  }, [taken])
+  }, [developed, taken])
 
   const take = (i: number) => {
     setPicked(i)
@@ -147,7 +172,7 @@ export default function ContactSheet() {
                   onMouseEnter={() => take(i)}
                   onFocus={() => take(i)}
                   onClick={() => take(i)}
-                  className={`sheet-cell group relative block cursor-pointer transition-opacity duration-500 ${
+                  className={`group relative block cursor-pointer transition-opacity duration-500 ${
                     isPick ? 'opacity-100' : 'opacity-45 hover:opacity-80'
                   }`}
                 >
@@ -162,11 +187,11 @@ export default function ContactSheet() {
                         alt=""
                         loading="lazy"
                         decoding="async"
-                        className="aspect-[4/3] w-full object-cover"
+                        className="sheet-print aspect-[4/3] w-full object-cover"
                       />
                     </span>
 
-                    {isPick && (
+                    {isPick && developed && (
                       <svg
                         aria-hidden="true"
                         viewBox="0 0 100 75"

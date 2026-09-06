@@ -12,7 +12,7 @@ export default function Faq() {
       <Eyebrow>Before you ask</Eyebrow>
       <SectionTitle>Questions</SectionTitle>
 
-      <div className="mt-12 max-w-4xl divide-y divide-line/70 border-y border-line/70">
+      <div className="mt-10 max-w-4xl divide-y divide-line/70 border-y border-line/70">
         {FAQS.map((f) => (
           <details key={f.q} className="group reveal py-5">
             <summary className="flex list-none items-center justify-between gap-6 text-left [&::-webkit-details-marker]:hidden">

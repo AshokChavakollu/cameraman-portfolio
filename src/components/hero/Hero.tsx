@@ -78,7 +78,7 @@ export default function Hero() {
 
       {/* The ticker is pinned to the bottom of the header, so the grid keeps a
           bottom pad wide enough that the stats never slide under it. */}
-      <div className="mx-auto grid w-full max-w-[104rem] grid-cols-1 items-center gap-2 px-5 pt-28 pb-24 sm:px-8 xl:px-14 lg:min-h-[100svh] lg:grid-cols-[1.05fr_1fr] lg:gap-10 lg:pt-32 lg:pb-32">
+      <div className="mx-auto grid w-full max-w-[104rem] grid-cols-1 items-center gap-2 px-5 pt-24 pb-16 sm:px-8 xl:px-14 lg:min-h-[100svh] lg:grid-cols-[1.05fr_1fr] lg:gap-10 lg:pt-24 lg:pb-24">
         {/* ── Copy ── */}
         <div className="relative z-10 order-2 lg:order-1">
           <p className="hero-in tech flex items-center gap-3 text-amber/85">
@@ -101,7 +101,7 @@ export default function Hero() {
             </CtaLink>
           </div>
 
-          <dl className="hero-in mt-12 grid max-w-lg grid-cols-3 gap-4 border-t border-line pt-7">
+          <dl className="hero-in mt-10 grid max-w-lg grid-cols-3 gap-4 border-t border-line pt-7">
             {HERO.stats.map((s) => (
               <Stat key={s.label} {...s} />
             ))}

@@ -35,7 +35,7 @@ export default function Films() {
         </a>
       </div>
 
-      <div className="mt-12 grid max-w-[84rem] gap-4 md:grid-cols-3">
+      <div className="mt-10 grid max-w-[84rem] gap-4 md:grid-cols-3">
         {FILMS.map((film) => (
           <article key={film.id} className="reveal group">
             <div className="relative aspect-video overflow-hidden rounded-xl border border-line/70 bg-ink">

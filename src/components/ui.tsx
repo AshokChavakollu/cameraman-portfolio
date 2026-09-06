@@ -24,7 +24,7 @@ export function Section({
     <section
       id={id}
       ref={ref}
-      className={`relative scroll-mt-20 px-5 py-20 sm:px-8 md:py-28 xl:px-14 ${className}`}
+      className={`relative scroll-mt-20 px-5 py-12 sm:px-8 md:py-16 lg:py-20 xl:px-14 ${className}`}
     >
       {/* Every section shares one shell, so their left edges line up all the
           way down the page. Content that must not stretch — a paragraph, a

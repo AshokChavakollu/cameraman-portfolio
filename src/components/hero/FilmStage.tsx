@@ -11,8 +11,6 @@ import {
   FLY_END,
   HOLD_END,
   POP_END,
-  SEAM_BLUR,
-  SEAM_WINDOW,
 } from '../../lib/film'
 
 /**
@@ -217,7 +215,6 @@ export default function FilmStage({ onCapture }: { onCapture?: () => void }) {
   const stage = useRef<HTMLDivElement>(null)
   const video = useRef<HTMLVideoElement>(null)
   const card = useRef<HTMLDivElement>(null)
-  const seam = useRef<HTMLDivElement>(null)
   const wire = useRef<SVGLineElement>(null)
   const { w: stageW, h: stageH, basis, box, layout } = useStage(stage)
   const seats = layout.slots
@@ -310,15 +307,6 @@ export default function FilmStage({ onCapture }: { onCapture?: () => void }) {
         onCapture?.()
       }
 
-      // The wrap defocus. Driven off the clip's clock like everything else, so
-      // it stays on the seam even if playback stutters.
-      const blurred = seam.current
-      if (blurred) {
-        const edge = Math.min(t, DURATION - t)
-        const k = edge >= SEAM_WINDOW ? 0 : 1 - edge / SEAM_WINDOW
-        blurred.style.filter = k > 0.002 ? `blur(${(k * SEAM_BLUR).toFixed(2)}px)` : ''
-      }
-
       const index = shotRef.current
       const el2 = card.current
       if (index === null || !el2) {
@@ -396,10 +384,8 @@ export default function FilmStage({ onCapture }: { onCapture?: () => void }) {
       <div aria-hidden className="absolute inset-0 overflow-hidden" style={FEATHER_X}>
         <div className="absolute inset-0 overflow-hidden" style={FEATHER_Y}>
           <div className="absolute inset-0 overflow-hidden" style={FEATHER_R}>
-            {/* The layer the wrap defocus is applied to — the picture only, so
-                the photographs on the wall stay sharp through the seam. */}
+            {/* The picture, held at the cover box inside the feathered stage. */}
             <div
-              ref={seam}
               className="absolute"
               style={{ left: box.left, top: box.top, width: box.width, height: box.height }}
             >

@@ -11,7 +11,7 @@ export default function Testimonials() {
       <Eyebrow>Couples & clients</Eyebrow>
       <SectionTitle>In their words</SectionTitle>
 
-      <div className="mt-12 grid max-w-[84rem] gap-4 md:grid-cols-3">
+      <div className="mt-10 grid max-w-[84rem] gap-4 md:grid-cols-3">
         {TESTIMONIALS.map((t) => (
           <figure
             key={t.name}

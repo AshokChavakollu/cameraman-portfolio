@@ -1,5 +1,4 @@
 import { useEffect } from 'react'
-import Aperture from './components/Aperture'
 import Nav from './components/Nav'
 import Hero from './components/hero/Hero'
 import ContactSheet from './components/sheet/ContactSheet'
@@ -12,7 +11,6 @@ import Process from './components/Process'
 import Delivery from './components/Delivery'
 import Testimonials from './components/Testimonials'
 import Faq from './components/Faq'
-import Availability from './components/Availability'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import MobileCta from './components/MobileCta'
@@ -36,17 +34,10 @@ export default function App() {
 
       <main>
         <Hero />
-        {/* The iris is used twice and no more: on the first section after the
-            hero, and on the work itself. A lens that opens on every section is
-            a page transition; a lens that opens twice is punctuation. */}
-        <Aperture>
-          <ContactSheet />
-        </Aperture>
+        <ContactSheet />
         <EditBay />
         <Divider />
-        <Aperture>
-          <Gallery />
-        </Aperture>
+        <Gallery />
         <Story />
         <Films />
         <Services />
@@ -55,7 +46,6 @@ export default function App() {
         <Delivery />
         <Testimonials />
         <Faq />
-        <Availability />
         <Contact />
       </main>
 

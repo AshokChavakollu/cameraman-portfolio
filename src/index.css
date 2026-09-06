@@ -216,8 +216,10 @@
 }
 
 /* ── Reveal primitives (GSAP drives these; CSS is the no-JS fallback) ── */
+/* Position only, no opacity: sections rise into place, they do not fade up.
+   Content is legible from the first frame, and if the JS never runs there is
+   nothing invisible left behind. */
 .reveal {
-  opacity: 0;
   transform: translate3d(0, 24px, 0);
 }
 

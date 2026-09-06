@@ -29,7 +29,6 @@ export const NAV_LINKS = [
   { href: '#films', label: 'Films' },
   { href: '#services', label: 'Services' },
   { href: '#process', label: 'Process' },
-  { href: '#dates', label: 'Dates' },
   { href: '#contact', label: 'Contact' },
 ] as const
 
@@ -202,45 +201,6 @@ export const EDIT: {
   ],
 }
 
-/**
- * The availability strip.
- *
- * The site's main call to action is "Check my dates" and the hero says
- * "Available for 2026 dates", but until this section there was nowhere to
- * check anything — the answer to the first question every couple asks was
- * "send a message and wait". A month is a link that opens WhatsApp already
- * asking about that month, so the enquiry arrives with the date in it.
- *
- * TODO: KEEP THIS CURRENT. A stale availability strip is worse than none —
- * it invites an enquiry for a month that went months ago, and the reply
- * "actually that's gone" is the worst first message a couple can get. Update
- * `months` and `updated` together, and if nobody will maintain it, take the
- * section out rather than let it drift.
- */
-export type MonthStatus = 'open' | 'few' | 'booked'
-
-export const AVAILABILITY = {
-  eyebrow: 'Dates',
-  title: "What's still open",
-  lede: 'Wedding season runs November to February and again through April to June. Most of a season goes eight to ten months ahead, so the honest answer is usually "ask early".',
-  /** Shown under the strip. Change it in the same commit as `months`. */
-  updated: 'Updated 12 February 2026',
-  /** The one thing that actually holds a date, said plainly. */
-  terms: 'A date is only held once the advance is paid — an enquiry does not reserve it.',
-  /** `{month}` and `{year}` are filled in before the message is sent. */
-  ask: 'Hi Aditya, I found your website. Is {month} {year} still open? Our wedding is on ',
-  legend: { open: 'Open', few: 'Few left', booked: 'Fully booked' },
-  months: [
-    { label: 'November', short: 'Nov', year: 2026, status: 'booked' },
-    { label: 'December', short: 'Dec', year: 2026, status: 'few', left: 2 },
-    { label: 'January', short: 'Jan', year: 2027, status: 'open' },
-    { label: 'February', short: 'Feb', year: 2027, status: 'few', left: 3 },
-    { label: 'April', short: 'Apr', year: 2027, status: 'open' },
-    { label: 'May', short: 'May', year: 2027, status: 'open' },
-    { label: 'June', short: 'Jun', year: 2027, status: 'booked' },
-  ] as { label: string; short: string; year: number; status: MonthStatus; left?: number }[],
-} as const
-
 export const ABOUT = {
   eyebrow: 'In the edit',
   title: 'Shot in a day. Cut over five weeks.',
@@ -258,28 +218,48 @@ export const ABOUT = {
   ],
 } as const
 
+/**
+ * What the work costs, and what it is.
+ *
+ * The first entry is the flagship and is rendered as one wide panel rather
+ * than as a quarter of a four-up grid. Four identical cards said that a
+ * wedding film and a conference recap are the same size of decision, which is
+ * not true of the business or of the person reading: this is a wedding
+ * photographer, and the wedding film is what almost everybody arrives for.
+ *
+ * `price` is split so the qualifier can sit small above the number instead of
+ * running into it. A price is the one string on this page a visitor scans for,
+ * and "from ₹1,85,000" set as one line at label size buries it.
+ *
+ * TODO: the frames below are the same gallery files the rest of the page uses.
+ * Each package wants a frame from that kind of job — a brand shoot for the
+ * brand card, not a wedding frame standing in for one.
+ */
 export const SERVICES = [
   {
     id: 'wedding-film',
     title: 'Wedding Film',
     icon: 'film',
-    price: 'from ₹1,85,000',
-    body: 'Full-day coverage across your functions. A 6–8 minute film, a 60-second teaser for the day after, and every frame colour graded by hand.',
+    price: { lead: 'From', value: '₹1,85,000' },
+    image: '/work/mandap.jpg',
+    body: 'Full-day coverage across your functions. A 6 to 8 minute film, a 60-second teaser for the day after, and every frame colour graded by hand.',
     includes: ['2 cinematographers', 'Teaser in 48 hours', 'Film in 5 weeks', 'Drone included'],
   },
   {
     id: 'pre-wedding',
     title: 'Pre-Wedding',
     icon: 'heart',
-    price: 'from ₹65,000',
-    body: 'A half-day or full-day shoot on location — a fort, a coastline, a rooftop at blue hour. Direction included, because nobody knows what to do with their hands.',
-    includes: ['Location scouting', '60–80 edited stills', '90-second film', 'Outfit guidance'],
+    price: { lead: 'From', value: '₹65,000' },
+    image: '/work/blue-hour.jpg',
+    body: 'A half-day or full-day shoot on location: a fort, a coastline, a rooftop at blue hour. Direction included, because nobody knows what to do with their hands.',
+    includes: ['Location scouting', '60 to 80 edited stills', '90-second film', 'Outfit guidance'],
   },
   {
     id: 'photography',
     title: 'Photography',
     icon: 'aperture',
-    price: 'from ₹95,000',
+    price: { lead: 'From', value: '₹95,000' },
+    image: '/work/first-look.jpg',
     body: 'Candid and traditional stills, shot alongside the film crew so you are never pulled in two directions by two teams with two plans.',
     includes: [
       '500+ edited frames',
@@ -292,7 +272,8 @@ export const SERVICES = [
     id: 'brand-film',
     title: 'Brand & Event',
     icon: 'building',
-    price: 'on request',
+    price: { lead: 'Scoped per project', value: 'On request' },
+    image: '/work/founder.jpg',
     body: 'Product launches, founder stories, conference recaps, music videos. Script to grade, or just the camera department if you already have a director.',
     includes: ['Concept & script', 'Crew sourcing', 'Multi-cam events', 'Reel cutdowns'],
   },
@@ -477,6 +458,12 @@ export const FILMS = [
   },
 ] as const
 
+/** The frame pinned beside the steps while they scroll. */
+export const PROCESS_FRAME = {
+  src: '/work/baraat.jpg',
+  alt: 'Baraat, Old City, Hyderabad',
+} as const
+
 export const PROCESS = [
   {
     step: '01',
@@ -486,7 +473,7 @@ export const PROCESS = [
   {
     step: '02',
     title: 'Recce & shot plan',
-    body: 'I visit the venue or study it in detail — where the light falls at 4pm, where the baraat enters, where the crowd will block the mandap.',
+    body: 'I visit the venue or study it in detail: where the light falls at 4pm, where the baraat enters, where the crowd will block the mandap.',
   },
   {
     step: '03',
@@ -529,37 +516,37 @@ export const DELIVERY = {
   lede: 'Every studio promises a cinematic film. Almost none of them tell you how long it is, when it arrives, or whether your mother can watch it without an app. This is the whole list.',
   items: [
     {
-      when: '48 hours',
+      when: { value: '48', unit: 'hours' },
       title: 'The teaser',
-      spec: '60–90 sec · 4K · vertical cut included',
+      spec: ['60 to 90 sec', '4K', 'Vertical cut included'],
       body: 'A minute of the day, cut and graded while it is still the thing everyone is talking about. The vertical cut comes with it, so nobody has to screen-record it off a laptop to put it up.',
     },
     {
-      when: '3 weeks',
+      when: { value: '3', unit: 'weeks' },
       title: 'The photographs',
-      spec: '600–900 frames · online gallery',
-      body: 'Edited frames in a gallery you can send to anyone — both sets of parents included — with full-resolution downloads and print rights for anything personal.',
+      spec: ['600 to 900 frames', 'Online gallery', 'Full-resolution downloads'],
+      body: 'Edited frames in a gallery you can send to anyone, both sets of parents included, with print rights for anything personal.',
     },
     {
-      when: '5 weeks',
+      when: { value: '5', unit: 'weeks' },
       title: 'The film',
-      spec: '6–8 min · 4K · 24fps',
+      spec: ['6 to 8 min', '4K', '24fps'],
       body: 'The day in the order it happened, graded by hand, delivered as a file you own rather than a link that expires. Two rounds of changes are included.',
     },
     {
-      when: '5 weeks',
+      when: { value: '5', unit: 'weeks' },
       title: 'The ceremonies, uncut',
-      spec: 'full length · 1080p',
-      body: 'The pheras, the vows, the speeches — unglamorous and end to end. Nobody asks for this at the booking and everybody wants it in twenty years.',
+      spec: ['Full length', '1080p'],
+      body: 'The pheras, the vows, the speeches. Unglamorous and end to end. Nobody asks for this at the booking and everybody wants it in twenty years.',
     },
     {
-      when: '8 weeks',
+      when: { value: '8', unit: 'weeks' },
       title: 'The album',
-      spec: '30 spreads · 12×18in · hand-laid',
+      spec: ['30 spreads', '12×18in', 'Hand-laid'],
       body: 'Laid out by me, printed on cotton rag and stitched by hand. You see the whole layout and approve it before anything goes to print.',
     },
   ],
-  note: 'Everything is held in two places, a drive here and the cloud, for five years — ask for a re-download any time inside that window. After five years, do not assume: keep your own copy.',
+  note: 'Everything is held in two places, a drive here and the cloud, for five years. Ask for a re-download any time inside that window. After five years, do not assume: keep your own copy.',
 } as const
 
 /**
@@ -586,10 +573,11 @@ export const DELIVERY = {
  * It is also the only part of the site with a name, a venue and a date
  * attached, which makes it the only part search engines can do anything with.
  *
- * The two numbers in `facts` that matter are `Frames shot` and `Frames
- * delivered`. Four thousand down to eight hundred is the contact sheet section
- * restated as arithmetic, and it is the clearest argument on the page for why
- * the job costs what it costs.
+ * `arithmetic` is split out of `facts` because those two numbers are not facts
+ * of the same weight as the rest. Four thousand down to eight hundred is the
+ * contact sheet section restated as arithmetic, and it is the clearest argument
+ * on the page for why the job costs what it costs, so it is set as a headline
+ * and counted up rather than filed in a six-cell grid beside the runtime.
  *
  * TODO: THIS NEEDS ONE REAL WEDDING. Twelve to eighteen frames from a single
  * day, in the order they happened, with the couple's written permission for
@@ -602,13 +590,16 @@ export const STORY = {
   couple: 'Meghana & Rohit',
   venue: 'Falaknuma Palace, Hyderabad',
   date: '14 December 2024',
-  lede: 'Three days, six functions, thirty-one hours on camera. This is the whole of one wedding in the order it happened — not the highlights, the day.',
+  lede: 'Three days, six functions, thirty-one hours on camera. This is the whole of one wedding in the order it happened, not the highlights.',
+  arithmetic: {
+    shot: { label: 'Frames shot', value: 4180 },
+    delivered: { label: 'Frames delivered', value: 812 },
+    note: 'Roughly one frame in five survives the edit, and choosing which is most of the work.',
+  },
   facts: [
     { label: 'Functions', value: 'Six, over three days' },
     { label: 'On camera', value: 'Two, plus lights' },
     { label: 'Hours shot', value: '31' },
-    { label: 'Frames shot', value: '4,180' },
-    { label: 'Frames delivered', value: '812' },
     { label: 'Film', value: '7 min 40 sec' },
   ],
   beats: [
@@ -631,14 +622,14 @@ export const STORY = {
       day: 'Day two',
       title: 'Baraat',
       src: '/work/baraat.jpg',
-      body: 'Two hundred people and one dhol down a closed street in the Old City. Shot slow on purpose — the blur is the point, a sharp baraat looks like a queue.',
+      body: 'Two hundred people and one dhol down a closed street in the Old City. Shot slow on purpose: the blur is the point, a sharp baraat looks like a queue.',
     },
     {
       time: '20:15',
       day: 'Day two',
       title: 'The mandap',
       src: '/work/mandap.jpg',
-      body: 'The pheras. No direction, no second take, nobody moved for a better angle — you get one take of a wedding and the job is to be in the right place already.',
+      body: 'The pheras. No direction, no second take, nobody moved for a better angle. You get one take of a wedding and the job is to be in the right place already.',
     },
     {
       time: '23:40',
@@ -658,6 +649,7 @@ export const STORY = {
   quote: {
     text: 'The teaser came while we were still at the reception and my mother has watched it maybe four hundred times.',
     name: 'Meghana R.',
+    role: 'The bride',
   },
   cta: { label: 'Watch their film', href: '#films' },
 } as const

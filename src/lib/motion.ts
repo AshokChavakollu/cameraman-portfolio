@@ -72,16 +72,15 @@ export function useReveal<T extends HTMLElement>(options: RevealOptions = {}) {
     if (!targets.length) return
 
     if (prefersReducedMotion()) {
-      gsap.set(targets, { opacity: 1, y: 0 })
+      gsap.set(targets, { y: 0 })
       return
     }
 
     const ctx = gsap.context(() => {
       gsap.fromTo(
         targets,
-        { opacity: 0, y },
+        { y },
         {
-          opacity: 1,
           y: 0,
           duration,
           stagger,

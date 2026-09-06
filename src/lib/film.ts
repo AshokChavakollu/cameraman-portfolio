@@ -20,11 +20,11 @@
  * where one frame to the next is about 1.0. No in-point and out-point exist
  * that cut together cleanly.
  *
- * So the seam is not blended — a dissolve across a 14.7 gap is a double
- * exposure, two of him on screen at once. It is a hard cut, masked by a fast
- * defocus (SEAM_BLUR): blur destroys the detail that makes a jump legible
- * without ever showing two images at once, and on a photographer's site it
- * reads as a focus pull rather than as a repair.
+ * The wrap is therefore a hard cut, left unmasked. A dissolve across a 14.7
+ * gap is a double exposure, two of him on screen at once; a defocus over the
+ * seam hid the jump but read as a blur on the picture, so it was removed. If
+ * the jump needs covering again, fix it in the clip — a longer take with a
+ * matched in-point and out-point — rather than over the top of it.
  *
  *   0.0–1.8  aiming, riding focus, breath held
  *   2.0      SHUTTER
@@ -38,12 +38,6 @@ export const FIRE = 2.0
 export const POP_END = 2.45
 export const HOLD_END = 4.4
 export const FLY_END = 5.0
-
-/** Half-width of the defocus at the wrap, in seconds, and how far out of focus
- *  it goes. Long enough to cover a frame or two of decoder jitter, short
- *  enough to read as a blink rather than as a transition. */
-export const SEAM_WINDOW = 0.16
-export const SEAM_BLUR = 15
 
 /** Where the camera body sits in the frame at the shutter, as a fraction of
  *  the picture — the hero's freeze-frame grows out of exactly this point. */

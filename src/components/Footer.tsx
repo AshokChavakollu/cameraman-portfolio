@@ -3,7 +3,7 @@ import { NAV_LINKS, SITE, whatsappHref } from '../data/site'
 
 export default function Footer() {
   return (
-    <footer className="relative border-t border-line/70 px-5 pt-16 pb-28 sm:px-8 md:pb-16">
+    <footer className="relative border-t border-line/70 px-5 pt-12 pb-28 sm:px-8 md:pb-12">
       <div className="mx-auto w-full max-w-[104rem]">
         <div className="flex flex-wrap items-end justify-between gap-10">
           <div>
@@ -22,7 +22,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-wrap items-center justify-between gap-6 border-t border-line/70 pt-6">
+        <div className="mt-10 flex flex-wrap items-center justify-between gap-6 border-t border-line/70 pt-6">
           <nav className="flex flex-wrap gap-6">
             {NAV_LINKS.map((l) => (
               <a

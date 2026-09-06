@@ -81,7 +81,7 @@ export default function Gallery() {
 
       <div
         ref={grid}
-        className="mt-12 grid auto-rows-[6.5rem] grid-cols-2 gap-3 sm:auto-rows-[7.5rem] sm:grid-cols-3 lg:grid-cols-4"
+        className="mt-10 grid auto-rows-[6.5rem] grid-cols-2 gap-3 sm:auto-rows-[7.5rem] sm:grid-cols-3 lg:grid-cols-4"
       >
         {shots.map((shot, i) => (
           <Frame key={shot.id} shot={shot} index={i} onOpen={setOpen} />
